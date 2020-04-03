@@ -1,27 +1,43 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.widgets import RectangleSelector, Button
+from matplotlib.widgets import RectangleSelector, Button, TextBox
 from scipy.optimize import curve_fit
 
 def curve_fit_gui(fun, x, y, *args, **kwargs):
-    fitgui = CurveFitGUI(fun, x, y, args, kwargs)
+    fitgui = CurveFitGUI(fun, x, y, *args, **kwargs)
     return fitgui
 
 
 class CurveFitGUI(object):
-    def __init__(self, fun, x, y, picker=5, *args, **kwargs):
+    def __init__(self, fun, x, y, picker=5, **kwargs):
         
         self.fun = fun 
         self.x, self.y = x, y
+        self.kwargs = kwargs
 
-        self.fig, self.ax = plt.subplots()
+        # create figure and plot raw data
+        self.fig = plt.figure(num='fit gui')
+        self.ax = self.fig.add_axes([0.1, 0.2, 0.8, 0.79])
+        self.ax.scatter(x, y, color='black', alpha=0.5, picker=picker)
 
-        self.ax.scatter(x, y, color='black', picker=picker)
+        # point selection widgets
         self.point_selector = PointSelector(self.ax, x, y)
 
-        ax_fit_button = self.fig.add_axes([0.5, 0.05, 0.1, 0.075])
+        # fit button
+        ax_fit_button = self.fig.add_axes([0.7, 0.01, 0.05, 0.05])
         self.fit_button = Button(ax_fit_button, label='fit')
         self.fit_button.on_clicked(self.fit_callback)
+
+        #XXX weird bug the p0 entry becomes unresponsive
+        # function entry box 
+        # self.funbox_ax = self.fig.add_axes([0.15, 0.07, 0.5, 0.05])
+        # self.funbox = TextBox(self.funbox_ax, 'Function:')
+        # self.funbox.on_submit(self.inputfun_callback)
+
+        # # initial guess
+        # self.p0_ax = self.fig.add_axes([0.15, 0.01, 0.5, 0.05])
+        # self.p0 = TextBox(self.p0_ax, 'P0:')
+        # self.p0.on_submit(self.inputp0_callback)
 
         # internals 
         self._fit_line = None
@@ -37,15 +53,27 @@ class CurveFitGUI(object):
         if self.point_selector.mask.any():
             self.selected_x = self.x[self.point_selector.mask]
             self.selected_y = self.y[self.point_selector.mask]
-            self.params, self.params_cov = curve_fit(self.fun, self.selected_x, self.selected_y)
+            self.params, self.params_cov = curve_fit(self.fun, self.selected_x, self.selected_y, **self.kwargs)
             self.y_fit = self.fun(self.selected_x, *self.params)
             self._fit_line = self.ax.plot(self.selected_x, self.y_fit, label="fit", zorder=3, color="blue")
         
         self.fig.canvas.draw()
 
-    def inputfun_callback(self, event):
-        # allows user to specify the desired function in the gui and parse it
-        pass
+    def inputfun_callback(self, text):
+        print("inputfun callback")
+        if text:
+            def inputfun(x, *p):
+                res = eval(text)
+                return res
+            
+            self.fun = inputfun
+
+    def inputp0_callback(self, text):
+        print("p0 callback")
+        if text:
+            self.p0 = eval(text)
+
+        return
 
 class PointSelector(object):
     """
@@ -64,12 +92,12 @@ class PointSelector(object):
         self.mask = np.zeros(x.shape, dtype=bool)
 
         self._highlight = self.ax.scatter(
-            [], [], color='purple', zorder=2, picker=5)
+            [], [], color='purple', zorder=2, picker=5, alpha=0.5)
 
         self.rectangle_selector = RectangleSelector(
             self.ax, self, useblit=True)
 
-        ax_sa_button = self.ax.figure.add_axes([0.7, 0.05, 0.1, 0.075])
+        ax_sa_button = self.ax.figure.add_axes([0.8, 0.01, 0.1, 0.05])
         self.select_all_button = Button(ax_sa_button, label='select all')
         self.select_all_button.on_clicked(self.select_all)
 
@@ -112,8 +140,6 @@ class PointSelector(object):
                 (self.y > y0) & (self.y < y1))
         return mask
 
-
-def main():
 
 if __name__ == "__main__":
     def lorentzian(x, center=0.0, gamma=2.0):
