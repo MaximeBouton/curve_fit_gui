@@ -4,6 +4,16 @@ from matplotlib.widgets import RectangleSelector, Button, TextBox
 from scipy.optimize import curve_fit
 
 def curve_fit_gui(fun, x, y, *args, **kwargs):
+    """graphical and interactive curve fitting function 
+    https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
+    
+    Args:
+        fun (function): the function used for fitting (see )
+        x (numpy array): the x coordinate of the data to fit
+        y (numpy array): the y coordinate of the data to fit 
+        *args : any extra arguments that can be passed to scipy.optimize.curve_fit
+        *kwargs : any keyword arguments that can be passed to scipy.optimize.curve_fit
+    """
     fitgui = CurveFitGUI(fun, x, y, *args, **kwargs)
     return fitgui
 
@@ -73,15 +83,16 @@ class CurveFitGUI(object):
         return
 
 class PointSelector(object):
-    """
+    """A class for setting interactive point selection in a matplotlib scatter plot.
 
     Heavily inspired from https://stackoverflow.com/questions/31919765/choosing-a-box-of-data-points-from-a-plot
-    class to define a point selection tool. It allows the user to interactively select points in a matplotlib window.
+
+    Features:
     - Define a rectangle by dragging the mouse allows to select/unselect all the points in the rectangle
     - Clicking on a point selects/unselects it
     - Clicking the 'select all' button selects or unselect all the point. 
 
-    Non selected points are in black while selected points are colored and have a larger marker.
+    Non selected points are in black while selected points are colored.
     """
 
     def __init__(self, ax, x, y):
