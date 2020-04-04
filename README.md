@@ -1,6 +1,7 @@
 # Curve Fitting GUI
 
 [![Build Status](https://travis-ci.org/MaximeBouton/curve_fit_gui.svg?branch=master)](https://travis-ci.org/MaximeBouton/curve_fit_gui)
+[![Coverage Status](https://coveralls.io/repos/github/MaximeBouton/curve_fit_gui/badge.svg?branch=master)](https://coveralls.io/github/MaximeBouton/curve_fit_gui?branch=master)
 
 This project provides a graphical interface for the scipy [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html) function. 
 It is relying on [matplotlib](https://matplotlib.org/) for the GUI.
