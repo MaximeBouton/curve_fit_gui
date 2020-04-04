@@ -146,8 +146,6 @@ if __name__ == "__main__":
         y = 1/np.pi * 0.5*gamma / ((x - center)**2 + (0.5*gamma)**2)
         return y
 
-    x, y = np.random.random((2, 100))
-
     # lorentzian + gaussian noise
     np.random.seed(12345)
     x = np.linspace(-2, 3, num=100)
