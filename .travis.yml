@@ -8,6 +8,7 @@ python:
 
 before_script:
   - pip install -U -r requirements.txt
+  - pip install -U -r test_requirements.txt
 
 script:
   - pytest --cov=curve_fit_gui
