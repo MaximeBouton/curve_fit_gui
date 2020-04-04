@@ -74,6 +74,8 @@ class CurveFitGUI(object):
 
 class PointSelector(object):
     """
+
+    Heavily inspired from https://stackoverflow.com/questions/31919765/choosing-a-box-of-data-points-from-a-plot
     class to define a point selection tool. It allows the user to interactively select points in a matplotlib window.
     - Define a rectangle by dragging the mouse allows to select/unselect all the points in the rectangle
     - Clicking on a point selects/unselects it
@@ -101,7 +103,7 @@ class PointSelector(object):
         self.canvas.mpl_connect('pick_event', self.onpick)
 
     def __call__(self, event1, event2):
-        print("rectangle selector")
+        # print("rectangle selector")
         self.mask ^= self.inside(event1, event2)
         self.update_canvas()
 
@@ -112,16 +114,16 @@ class PointSelector(object):
 
     def select_all(self, event):
         if self.mask.all():
-            print("unselect everything")
+            # print("unselect everything")
             self.mask.fill(False)
         else:
-            print("select everything")
+            # print("select everything")
             self.mask.fill(True)
 
         self.update_canvas()
 
     def onpick(self, event):
-        print("on pick")
+        # print("on pick")
         # toggle point selection
         if event.artist != self._highlight:
             self.mask[event.ind[0]] = not self.mask[event.ind[0]]

@@ -1,9 +1,10 @@
 # Curve Fitting GUI
 
-This project provides a graphical interface for the `curve_fit` function of scipy. 
-It is relying on `matplotlib` for the GUI.
+[![Build Status](https://travis-ci.org/MaximeBouton/curve_fit_gui.svg?branch=master)](https://travis-ci.org/MaximeBouton/curve_fit_gui)
 
-![demo](fitgui.gif)
+This project provides a graphical interface for the scipy [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html) function. 
+It is relying on [matplotlib](https://matplotlib.org/) for the GUI.
+
 
 ## Usage 
 
@@ -23,4 +24,5 @@ plt.show()
 
 ```
 
+![demo](fitgui_demo.gif)
 
