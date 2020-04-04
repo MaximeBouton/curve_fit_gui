@@ -8,6 +8,7 @@ autopep8 = "*"
 ipython = "*"
 ipykernel = "*"
 nbformat = "*"
+pytest = "*"
 
 [packages]
 numpy = "*"

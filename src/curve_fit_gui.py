@@ -7,7 +7,6 @@ def curve_fit_gui(fun, x, y, *args, **kwargs):
     fitgui = CurveFitGUI(fun, x, y, *args, **kwargs)
     return fitgui
 
-
 class CurveFitGUI(object):
     def __init__(self, fun, x, y, picker=5, **kwargs):
         
@@ -41,8 +40,6 @@ class CurveFitGUI(object):
 
         # internals 
         self._fit_line = None
-
-        plt.show()
 
     def fit_callback(self, event):
         # run the curve_fit function and store the result
@@ -114,10 +111,11 @@ class PointSelector(object):
         self.canvas.draw()
 
     def select_all(self, event):
-        print("button press: ", self.mask[0])
         if self.mask.all():
+            print("unselect everything")
             self.mask.fill(False)
         else:
+            print("select everything")
             self.mask.fill(True)
 
         self.update_canvas()

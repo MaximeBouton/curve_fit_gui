@@ -1,0 +1,14 @@
+language: python
+
+notifications:
+  email: false
+
+python:
+  - '3.7'
+
+before_script:
+  - pip install -U -r requirements.txt
+
+script:
+  - pytest
+
